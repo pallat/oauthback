@@ -43,7 +43,7 @@ func main() {
 
 var (
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "https://oauthback.herokuapp.com/login",
+		RedirectURL:  "https://localhost:" + os.Getenv("PORT") + "/login",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
 		Scopes:       []string{"https://www.googleapis.com/auth/urlshortener"},
