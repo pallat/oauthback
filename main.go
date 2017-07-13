@@ -71,5 +71,5 @@ func handleGoogleCallback(c echo.Context) error {
 
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
-	return c.String(200, "Content: %s\n", contents)
+	return c.String(200, string(contents))
 }
