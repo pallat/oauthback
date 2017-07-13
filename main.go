@@ -43,7 +43,7 @@ func main() {
 
 var (
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "https://oauthback.herokuapp.com/oauth/callback",
+		RedirectURL:  "",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
 		Scopes:       []string{"https://www.googleapis.com/auth/urlshortener"},
@@ -75,6 +75,7 @@ func handleGoogleCallback(c echo.Context) error {
 }
 
 func handleGoogleLogin(c echo.Context) error {
+	googleOauthConfig.RedirectURL = "/oauth/callback"
 	url := googleOauthConfig.AuthCodeURL(oauthStateString)
 	return c.Redirect(http.StatusTemporaryRedirect, url)
 }
