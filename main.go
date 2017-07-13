@@ -46,7 +46,7 @@ var (
 		RedirectURL:  "http://localhost:" + os.Getenv("PORT") + "/login",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
-		Scopes:       []string{"https://www.googleapis.com/urlshortener/v1/url"},
+		Scopes:       []string{"https://www.googleapis.com/auth/urlshortener"},
 		Endpoint:     google.Endpoint,
 	}
 	// Some random string, random for each request
