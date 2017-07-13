@@ -31,6 +31,7 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	// Routes
 	e.GET("/", callback)
@@ -38,8 +39,8 @@ func main() {
 	e.GET("/oauth/callback", handleGoogleCallback)
 
 	// Start server
-	// e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
+	// e.Logger.Fatal(e.Start(":1323"))
 }
 
 var (
