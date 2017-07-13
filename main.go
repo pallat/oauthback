@@ -38,13 +38,13 @@ func main() {
 	e.GET("/oauth/callback", handleGoogleCallback)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
+	// e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
 var (
 	googleOauthConfig = &oauth2.Config{
-		// RedirectURL:  "https://oauthback.herokuapp.com/oauth/callback",
-		RedirectURL:  "http://localhost:1323/oauth/callback",
+		RedirectURL:  "https://oauthback.herokuapp.com/oauth/callback",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
 		Scopes:       []string{"https://www.googleapis.com/auth/urlshortener"},
@@ -68,10 +68,13 @@ func handleGoogleCallback(c echo.Context) error {
 		return c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
 
-	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+	fmt.Println("accessToken", token.AccessToken)
+
+	response, err := http.Get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token.AccessToken)
 
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
+	fmt.Println(string(contents))
 	return c.String(200, string(contents))
 }
 
