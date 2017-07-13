@@ -75,7 +75,7 @@ func handleGoogleCallback(c echo.Context) error {
 }
 
 func handleGoogleLogin(c echo.Context) error {
-	googleOauthConfig.RedirectURL = "/oauth/callback"
+	googleOauthConfig.RedirectURL = "https://oauthback.herokuapp.com/oauth/callback"
 	url := googleOauthConfig.AuthCodeURL(oauthStateString)
 	return c.Redirect(http.StatusTemporaryRedirect, url)
 }
