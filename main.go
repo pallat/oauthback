@@ -43,12 +43,11 @@ func main() {
 
 var (
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:3000/GoogleCallback",
+		RedirectURL:  "http://localhost:" + os.Getenv("PORT") + "/login",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
-		Scopes: []string{"https://www.googleapis.com/auth/userinfo.profile",
-			"https://www.googleapis.com/auth/userinfo.email"},
-		Endpoint: google.Endpoint,
+		Scopes:       []string{"https://www.googleapis.com/urlshortener/v1/url"},
+		Endpoint:     google.Endpoint,
 	}
 	// Some random string, random for each request
 	oauthStateString = "random"
