@@ -34,6 +34,7 @@ func main() {
 
 	// Routes
 	e.GET("/", callback)
+	e.GET("/login", handleGoogleLogin)
 	e.GET("/oauth/callback", handleGoogleCallback)
 
 	// Start server
@@ -72,4 +73,9 @@ func handleGoogleCallback(c echo.Context) error {
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
 	return c.String(200, string(contents))
+}
+
+func handleGoogleLogin(c echo.Context) error {
+	url := googleOauthConfig.AuthCodeURL(oauthStateString)
+	return c.Redirect(http.StatusTemporaryRedirect, url)
 }
