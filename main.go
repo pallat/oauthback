@@ -48,8 +48,12 @@ var (
 		RedirectURL:  "https://oauthback.herokuapp.com/oauth/callback",
 		ClientID:     os.Getenv("googlekey"),
 		ClientSecret: os.Getenv("googlesecret"),
-		Scopes:       []string{"https://www.googleapis.com/auth/urlshortener"},
-		Endpoint:     google.Endpoint,
+		Scopes: []string{
+			"https://www.googleapis.com/auth/urlshortener",
+			"https://www.googleapis.com/auth/userinfo.profile",
+			"https://www.googleapis.com/auth/userinfo.email",
+		},
+		Endpoint: google.Endpoint,
 	}
 	// Some random string, random for each request
 	oauthStateString = "random"
@@ -71,12 +75,14 @@ func handleGoogleCallback(c echo.Context) error {
 
 	fmt.Println("accessToken", token.AccessToken)
 
-	response, err := http.Get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token.AccessToken)
+	// response, err := http.Get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token.AccessToken)
+	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
 	fmt.Println(string(contents))
-	return c.String(200, string(contents))
+	return c.String(200, string(contents)+`
+*** validate token: "https://www.googleapis.com/oauth2/v2/userinfo?access_token="`+token.AccessToken)
 }
 
 func handleGoogleLogin(c echo.Context) error {
