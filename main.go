@@ -14,14 +14,8 @@ import (
 )
 
 // Handler
-func callback(c echo.Context) error {
-	var v map[string]interface{}
-	m := map[string]interface{}{}
-	m["request"] = c.Request().RequestURI
-	err := c.Bind(&v)
-	m["error"] = err
-	m["payload"] = v
-	return c.JSON(http.StatusOK, m)
+func hello(c echo.Context) error {
+	return c.String(http.StatusOK, "Pallat Anchaleechamaikorn")
 }
 
 func main() {
@@ -34,7 +28,7 @@ func main() {
 	e.Use(middleware.CORS())
 
 	// Routes
-	e.GET("/", callback)
+	e.GET("/", hello)
 	e.GET("/login", handleGoogleLogin)
 	e.GET("/oauth/callback", handleGoogleCallback)
 
@@ -82,7 +76,7 @@ func handleGoogleCallback(c echo.Context) error {
 	contents, err := ioutil.ReadAll(response.Body)
 	fmt.Println(string(contents))
 	return c.String(200, string(contents)+`
-*** validate token: "https://www.googleapis.com/oauth2/v2/userinfo?access_token="`+token.AccessToken)
+*** validate token: https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=`+token.AccessToken)
 }
 
 func handleGoogleLogin(c echo.Context) error {
