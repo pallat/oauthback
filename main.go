@@ -69,14 +69,14 @@ func handleGoogleCallback(c echo.Context) error {
 
 	fmt.Println("accessToken", token.AccessToken)
 
-	// response, err := http.Get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token.AccessToken)
 	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
 	fmt.Println(string(contents))
 	return c.String(200, string(contents)+`
-*** validate token: https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=`+token.AccessToken)
+*** validate token: https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=`+token.AccessToken+`
+<a href=https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=`+token.AccessToken+`>click</a>`)
 }
 
 func handleGoogleLogin(c echo.Context) error {
